@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0f0f10" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <title>yt-dual — 2 つ同時に再生</title>
+    <script type="module" crossorigin src="/assets/index-CMl3AEEM.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-vRwyBp-C.css">
+  </head>
+  <body>
+    <header class="bar">
+      <h1>yt-dual</h1>
+      <button type="button" id="signIn">ログイン</button>
+      <span class="version" id="version"></span>
+    </header>
+
+    <main>
+      <section class="both">
+        <button type="button" class="primary" id="playBoth">▶▶ 全部を再生</button>
+        <button type="button" id="pauseBoth">⏸ 全部を停止</button>
+      </section>
+
+      <!--
+        How many slots. The slider is for going a long way at once; the two buttons are for
+        landing on the number you meant, which a thumb on a slider cannot reliably do.
+      -->
+      <section class="count">
+        <button type="button" id="countDown" aria-label="枠を 1 つ減らす">−</button>
+        <input
+          type="range"
+          id="countRange"
+          min="1"
+          max="20"
+          step="1"
+          value="2"
+          aria-label="枠の数"
+        />
+        <button type="button" id="countUp" aria-label="枠を 1 つ増やす">＋</button>
+        <output id="countValue" for="countRange">2</output>
+        <span class="count-unit">枠</span>
+      </section>
+
+      <!--
+        Left alone the grid works itself out from the count (9 becomes 3 by 3). These are for
+        when the operator wants a shape the count would not have picked.
+      -->
+      <section class="layout" id="layoutRow" hidden>
+        <span class="layout-label">並び</span>
+        <button type="button" data-columns="auto" aria-pressed="true">自動</button>
+        <button type="button" data-columns="2" aria-pressed="false">2 列</button>
+        <button type="button" data-columns="3" aria-pressed="false">3 列</button>
+        <button type="button" data-columns="4" aria-pressed="false">4 列</button>
+        <button type="button" data-columns="5" aria-pressed="false">5 列</button>
+      </section>
+
+      <section class="library" id="library" hidden>
+        <div class="library-bar">
+          <button type="button" id="libraryBack" hidden>← 戻る</button>
+          <strong id="libraryTitle"></strong>
+          <button type="button" id="libraryClose">閉じる</button>
+        </div>
+        <div class="library-tabs">
+          <button type="button" data-tab="search" aria-pressed="false">検索</button>
+          <button type="button" data-tab="playlists" aria-pressed="true">再生リスト</button>
+          <button type="button" data-tab="subscriptions" aria-pressed="false">登録チャンネル</button>
+          <button type="button" data-tab="liked" aria-pressed="false">高評価</button>
+        </div>
+        <div class="library-search" id="librarySearchRow" hidden>
+          <input type="search" id="librarySearchInput" placeholder="曲名や人の名前で探す" />
+          <button type="button" id="librarySearchGo">探す</button>
+        </div>
+        <p class="library-note" id="libraryNote"></p>
+        <ul class="library-list" id="libraryList"></ul>
+      </section>
+
+      <!--
+        One slot, stamped out as many times as the screen needs. Twenty of these written by
+        hand would be twenty places to forget the same edit.
+      -->
+      <template id="slotTemplate">
+        <section class="slot">
+          <h2>
+            <button type="button" class="slot-name" data-select></button>
+            <span class="status" data-status></span>
+          </h2>
+          <!--
+            The gesture sheet sits over the player because the YouTube frame swallows every
+            touch that reaches it. It only takes touches while this slot is full screen.
+          -->
+          <div class="frame" data-fit="fit">
+            <div data-mount></div>
+            <div class="gesture" data-gesture>
+              <button type="button" class="gesture-close" data-collapse aria-label="全画面をやめる">
+                ✕
+              </button>
+              <p class="gesture-hint" data-hint aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="row paste">
+            <input type="text" data-input placeholder="YouTube のアドレスか ID を貼る" />
+            <button type="button" data-load>読込</button>
+          </div>
+          <div class="row">
+            <button type="button" data-play>▶ 再生</button>
+            <button type="button" data-pause>⏸ 一時停止</button>
+            <button type="button" data-mute aria-pressed="false">🔇 消音</button>
+            <button type="button" data-loop aria-pressed="true">🔁 繰り返し</button>
+            <button type="button" data-expand>⛶ 全画面</button>
+            <select data-speed aria-label="再生の速さ">
+              <option value="0.25">0.25倍</option>
+              <option value="0.5">0.5倍</option>
+              <option value="0.75">0.75倍</option>
+              <option value="1" selected>1倍</option>
+              <option value="1.25">1.25倍</option>
+              <option value="1.5">1.5倍</option>
+              <option value="1.75">1.75倍</option>
+              <option value="2">2倍</option>
+            </select>
+          </div>
+          <label class="row volume">
+            音量 <input type="range" min="0" max="100" step="1" data-volume />
+            <output data-volume-value></output>
+          </label>
+        </section>
+      </template>
+
+      <div class="slots" id="slots"></div>
+
+      <p class="note" id="note"></p>
+    </main>
+
+  </body>
+</html>

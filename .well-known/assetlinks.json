@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.yamaga101.ytdual",
+      "sha256_cert_fingerprints": [
+        "8A:C2:3E:1F:36:DC:6F:FC:7B:65:12:F8:D8:51:18:98:89:41:30:1F:B2:BC:C4:37:BC:66:7C:F4:65:22:C4:14"
+      ]
+    }
+  }
+]
