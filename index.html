@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-1T2M2bWn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CDtlgytz.css">
+    <script type="module" crossorigin src="/assets/index-gAHzrH7a.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BjCvDuqz.css">
   </head>
   <body>
     <header class="bar">
@@ -98,6 +98,24 @@
               <button type="button" class="gesture-close" data-collapse aria-label="全画面をやめる">
                 ✕
               </button>
+              <!--
+                Nothing on screen says what the sheet does, so the first pause is where it
+                gets explained. It shows itself while this slot is full screen and paused —
+                the one moment nobody is watching the picture — and is gone on play.
+              -->
+              <div class="gesture-guide">
+                <p class="gesture-guide-title">指の操作</p>
+                <dl>
+                  <dt>1 回叩く</dt><dd>再生／一時停止</dd>
+                  <dt>2 回叩く</dt><dd>右で 10 秒進む・左で 10 秒戻る</dd>
+                  <dt>3 回・4 回</dt><dd>30 秒・60 秒</dd>
+                  <dt>横になぞる</dt><dd>速さ</dd>
+                  <dt>縦になぞる</dt><dd>音量</dd>
+                  <dt>2 本指で広げる</dt><dd>画面いっぱいに映す</dd>
+                  <dt>2 本指でつまむ</dt><dd>全体を映す</dd>
+                  <dt>2 本指で叩く</dt><dd>消音</dd>
+                </dl>
+              </div>
               <p class="gesture-hint" data-hint aria-live="polite"></p>
             </div>
           </div>
@@ -133,6 +151,25 @@
 
       <p class="note" id="note"></p>
     </main>
+
+    <!--
+      The other slots' volumes, reachable while one slot is covering the screen.
+
+      Full screen is for watching one picture while the rest keep playing, so the rest are
+      exactly what cannot be reached — their own controls are off screen with them. This
+      drawer is shared by every slot rather than living inside each one: it has to list the
+      *other* slots, which no single slot knows about.
+    -->
+    <button type="button" class="mixer-open" id="mixerOpen" hidden aria-expanded="false">
+      🔊 音量
+    </button>
+    <aside class="mixer" id="mixer" hidden aria-label="他の枠の音量">
+      <div class="mixer-head">
+        <span>他の枠の音量</span>
+        <button type="button" id="mixerClose" aria-label="閉じる">✕</button>
+      </div>
+      <div class="mixer-list" id="mixerList"></div>
+    </aside>
 
   </body>
 </html>
