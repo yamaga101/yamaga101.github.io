@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-CvS0r1JL.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DtCss33R.css">
+    <script type="module" crossorigin src="/assets/index-DToNnUmY.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-zn-8hnCI.css">
   </head>
   <body>
     <header class="bar">
@@ -191,24 +191,24 @@
         </section>
       </template>
 
-      <div class="slots" id="slots">
-        <!--
-          The handle between two side-by-side slots. It is moved to sit between them as soon
-          as the second one exists, and only takes part in the grid when there are exactly two
-          of them standing side by side — the one arrangement with a line to drag.
-        -->
+      <!--
+        One handle per gap between columns, stamped out as the column count changes. Each one
+        spans every row, because a column is the full height of the grid however many rows of
+        slots are standing in it.
+      -->
+      <template id="splitTemplate">
         <div
           class="split"
-          id="split"
           role="separator"
           aria-orientation="vertical"
-          aria-label="枠の広さ"
-          aria-valuemin="20"
-          aria-valuemax="80"
+          aria-valuemin="0"
+          aria-valuemax="100"
           aria-valuenow="50"
           tabindex="0"
         ></div>
-      </div>
+      </template>
+
+      <div class="slots" id="slots"></div>
 
       <p class="note" id="note"></p>
     </main>
