@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-CVnSvT_G.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CIBYdLnm.css">
+    <script type="module" crossorigin src="/assets/index-DSjth6Qh.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BfFb02nm.css">
   </head>
   <body>
     <header class="bar">
@@ -74,6 +74,13 @@
           <button type="button" data-tab="playlists" aria-pressed="true">再生リスト</button>
           <button type="button" data-tab="subscriptions" aria-pressed="false">登録チャンネル</button>
           <button type="button" data-tab="liked" aria-pressed="false">高評価</button>
+          <!--
+            The nearest thing the API has to おすすめ. YouTube's own recommendations are built
+            from watch history, and neither history nor recommendations have ever been
+            reachable through the Data API — so this list is the same for everyone, and the
+            label says so rather than promising something personal.
+          -->
+          <button type="button" data-tab="popular" aria-pressed="false">人気</button>
         </div>
         <div class="library-search" id="librarySearchRow" hidden>
           <input type="search" id="librarySearchInput" placeholder="曲名や人の名前で探す" />
@@ -184,7 +191,24 @@
         </section>
       </template>
 
-      <div class="slots" id="slots"></div>
+      <div class="slots" id="slots">
+        <!--
+          The handle between two side-by-side slots. It is moved to sit between them as soon
+          as the second one exists, and only takes part in the grid when there are exactly two
+          of them standing side by side — the one arrangement with a line to drag.
+        -->
+        <div
+          class="split"
+          id="split"
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="枠の広さ"
+          aria-valuemin="20"
+          aria-valuemax="80"
+          aria-valuenow="50"
+          tabindex="0"
+        ></div>
+      </div>
 
       <p class="note" id="note"></p>
     </main>
