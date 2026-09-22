@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-D1VHi-vN.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-n-guqhHf.css">
+    <script type="module" crossorigin src="/assets/index-CJ-Bm_g2.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D5KV322C.css">
   </head>
   <body>
     <header class="bar">
@@ -94,6 +94,13 @@
           -->
           <div class="frame" data-fit="fit">
             <div data-mount></div>
+            <!--
+              Tap to start, ours rather than YouTube's.
+              A slot that has not started yet is still YouTube's poster, and most of it is a
+              link to youtube.com — so a tap meant to start the video left the app instead
+              (operator, 2026-09-23). This covers the picture only until playing begins.
+            -->
+            <button type="button" class="frame-start" data-start aria-label="再生"></button>
             <div class="gesture" data-gesture>
               <button type="button" class="gesture-close" data-collapse aria-label="全画面をやめる">
                 ✕
