@@ -9,33 +9,48 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-DOVG21Ii.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C9QMnH8Y.css">
+    <script type="module" crossorigin src="/assets/index-D_G0DWy6.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CeB0-obh.css">
   </head>
   <body>
+    <!--
+      A name strip and nothing else. Sign-in moved down into the row of controls, where it
+      belongs — it is an action, and up here it was the tallest thing in a bar that was
+      costing 59 of the tablet's 507 pixels to print one word.
+    -->
     <header class="bar">
       <h1>yt-dual</h1>
-      <button type="button" id="signIn">ログイン</button>
       <span class="version" id="version"></span>
     </header>
 
     <main>
-      <section class="both">
-        <button type="button" class="primary" id="playBoth">▶▶ 全部を再生</button>
-        <button type="button" id="pauseBoth">⏸ 全部を停止</button>
+      <!--
+        Everything that acts on the whole page, in one row.
+
+        It used to be three rows stacked above the players — play/pause/reset, the count, the
+        column choice — and on the tablet held sideways they spent 120 of 507 pixels before
+        the first picture (operator, 2026-09-23: ごちゃついてるんでシンプルにして). A glyph
+        stands wherever a glyph says it; words stay only where the word is the meaning, which
+        is why 全部 is written out and the broom is not.
+      -->
+      <section class="tools">
+        <button type="button" class="primary" id="playBoth">▶ 全部</button>
+        <button type="button" id="pauseBoth">⏸ 全部</button>
         <!--
           Emptying every slot. It asks twice rather than opening a dialog: one stray tap must
           not throw away twenty videos, and a dialog is one more thing to read.
         -->
-        <button type="button" id="resetAll">🧹 全枠リセット</button>
-      </section>
+        <button type="button" class="icon" id="resetAll" title="全枠リセット" aria-label="全枠リセット">
+          🧹
+        </button>
 
-      <!--
-        How many slots. The slider is for going a long way at once; the two buttons are for
-        landing on the number you meant, which a thumb on a slider cannot reliably do.
-      -->
-      <section class="count">
-        <button type="button" id="countDown" aria-label="枠を 1 つ減らす">−</button>
+        <span class="tools-sep" aria-hidden="true"></span>
+
+        <!--
+          How many slots. The slider is for going a long way at once; the two buttons are for
+          landing on the number you meant, which a thumb on a slider cannot reliably do.
+        -->
+        <button type="button" class="icon" id="countDown" aria-label="枠を 1 つ減らす">−</button>
         <input
           type="range"
           id="countRange"
@@ -45,22 +60,34 @@
           value="2"
           aria-label="枠の数"
         />
-        <button type="button" id="countUp" aria-label="枠を 1 つ増やす">＋</button>
+        <button type="button" class="icon" id="countUp" aria-label="枠を 1 つ増やす">＋</button>
         <output id="countValue" for="countRange">2</output>
         <span class="count-unit">枠</span>
-      </section>
 
-      <!--
-        Left alone the grid works itself out from the count (9 becomes 3 by 3). These are for
-        when the operator wants a shape the count would not have picked.
-      -->
-      <section class="layout" id="layoutRow" hidden>
-        <span class="layout-label">並び</span>
-        <button type="button" data-columns="auto" aria-pressed="true">自動</button>
-        <button type="button" data-columns="2" aria-pressed="false">2 列</button>
-        <button type="button" data-columns="3" aria-pressed="false">3 列</button>
-        <button type="button" data-columns="4" aria-pressed="false">4 列</button>
-        <button type="button" data-columns="5" aria-pressed="false">5 列</button>
+        <!--
+          Left alone the grid works itself out from the count (9 becomes 3 by 3). This is for
+          when the operator wants a shape the count would not have picked. A menu rather than
+          five buttons: it is set once and then never looked at, and five buttons took a row.
+        -->
+        <select id="columnsSelect" aria-label="並びの列数" hidden>
+          <option value="auto">並び 自動</option>
+          <option value="2">2 列</option>
+          <option value="3">3 列</option>
+          <option value="4">4 列</option>
+          <option value="5">5 列</option>
+        </select>
+
+        <!--
+          Installed as a real app there is no reload button, so the only way to pick up a new
+          build was to kill the app from the task switcher (operator, 2026-09-23: 毎回タスク
+          キルするのが嫌だ). It wears a dot when a background check has already found one.
+        -->
+        <button type="button" class="icon" id="update" title="更新を確認" aria-label="更新を確認">
+          ↻
+        </button>
+
+        <!-- The operator's own YouTube, so a phone never has to type an id. -->
+        <button type="button" id="signIn">ログイン</button>
       </section>
 
       <section class="library" id="library" hidden>
@@ -95,7 +122,7 @@
         hand would be twenty places to forget the same edit.
       -->
       <template id="slotTemplate">
-        <section class="slot">
+        <section class="slot" data-paste="off">
           <h2>
             <button type="button" class="slot-name" data-select></button>
             <span class="status" data-status></span>
@@ -163,16 +190,60 @@
               </div>
             </div>
           </div>
+          <!--
+            Where an address is pasted. Folded away by default and opened by 🔗, because on a
+            filled slot it is a wide box nobody types into — it holds an id that is already
+            on screen above it. A slot with nothing in it opens it by itself, since that is
+            the one moment it is the only way in.
+          -->
           <div class="row paste">
             <input type="text" data-input placeholder="YouTube のアドレスか ID を貼る" />
-            <button type="button" data-load>読込</button>
+            <button type="button" class="icon" data-load title="読み込む" aria-label="読み込む">
+              ↵
+            </button>
           </div>
+          <!--
+            One row for everything this slot does. It was three — play and pause, the
+            toggles, then the volume on a line of its own — and on the tablet that put the
+            bottom of a tall video past the edge of the screen. Play and pause are one button
+            here for the same reason the full-screen bar has one: a video is either running
+            or it is not, so two buttons meant one of them was always dead.
+          -->
           <div class="row controls">
-            <button type="button" data-play>▶ 再生</button>
-            <button type="button" data-pause>⏸ 一時停止</button>
-            <button type="button" data-mute aria-pressed="false">🔇 消音</button>
-            <button type="button" data-loop aria-pressed="true">🔁 繰り返し</button>
-            <button type="button" data-expand>⛶ 全画面</button>
+            <button type="button" class="icon" data-toggle title="再生" aria-label="再生">▶</button>
+            <button
+              type="button"
+              class="icon"
+              data-mute
+              aria-pressed="false"
+              title="消音"
+              aria-label="消音"
+            >
+              🔇
+            </button>
+            <button
+              type="button"
+              class="icon"
+              data-loop
+              aria-pressed="true"
+              title="繰り返し"
+              aria-label="繰り返し"
+            >
+              🔁
+            </button>
+            <button type="button" class="icon" data-expand title="全画面" aria-label="全画面">
+              ⛶
+            </button>
+            <button
+              type="button"
+              class="icon"
+              data-paste-toggle
+              aria-pressed="false"
+              title="アドレスを貼る"
+              aria-label="アドレスを貼る"
+            >
+              🔗
+            </button>
             <select data-speed aria-label="再生の速さ">
               <option value="0.25">0.25倍</option>
               <option value="0.5">0.5倍</option>
@@ -183,11 +254,16 @@
               <option value="1.75">1.75倍</option>
               <option value="2">2倍</option>
             </select>
+            <!--
+              The slider and its reading are one item, not two. Left loose in the row the
+              slider took all the slack and pushed the number onto a line of its own, which
+              cost the slot 51px for three digits (measured 983x507, 2026-09-23).
+            -->
+            <label class="vol">
+              <input type="range" min="0" max="100" step="1" data-volume aria-label="音量" />
+              <output data-volume-value></output>
+            </label>
           </div>
-          <label class="row volume">
-            音量 <input type="range" min="0" max="100" step="1" data-volume />
-            <output data-volume-value></output>
-          </label>
         </section>
       </template>
 

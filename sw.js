@@ -16,6 +16,14 @@
 const CACHE = 'yt-dual-shell';
 const NAVIGATION_TIMEOUT_MS = 2500;
 
+/**
+ * The one file that must never come from the cache.
+ *
+ * It is what the update button compares against, so a cached copy would answer "you are up to
+ * date" forever — the exact failure the button exists to end.
+ */
+const ALWAYS_FRESH = '/version.json';
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
@@ -27,6 +35,14 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(self.clients.claim());
+});
+
+/**
+ * The update button, having found a newer build, asks the waiting worker to take over now
+ * rather than at some later cold start — which in an installed app may never come.
+ */
+self.addEventListener('message', (event) => {
+  if (event.data === 'skip-waiting') void self.skipWaiting();
 });
 
 /** Resolves to null rather than rejecting, so the caller can fall back without a try block. */
@@ -78,8 +94,11 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
+  const url = new URL(request.url);
   // Only our own files. YouTube's player must always talk to YouTube.
-  if (new URL(request.url).origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin) return;
+  // Straight to the network, uncached, so the update check sees what the server has today.
+  if (url.pathname === ALWAYS_FRESH) return;
 
   event.respondWith(request.mode === 'navigate' ? handleNavigation(request) : handleAsset(request));
 });
