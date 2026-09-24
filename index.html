@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-ryPPx7QT.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CeB0-obh.css">
+    <script type="module" crossorigin src="/assets/index-D_WXZSFI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dv2sU1w9.css">
   </head>
   <body>
     <!--
@@ -42,6 +42,15 @@
         -->
         <button type="button" class="icon" id="resetAll" title="全枠リセット" aria-label="全枠リセット">
           🧹
+        </button>
+
+        <!--
+          Every slot at once, covering the screen (operator, 2026-09-24: 複数画面の全画面表示).
+          The per-slot ⛶ shows one picture with the rest playing unseen; this shows all of
+          them, the page's own bars and buttons put away.
+        -->
+        <button type="button" class="icon" id="allFull" title="全部を全画面" aria-label="全部を全画面">
+          ⛶
         </button>
 
         <span class="tools-sep" aria-hidden="true"></span>
@@ -108,9 +117,23 @@
             label says so rather than promising something personal.
           -->
           <button type="button" data-tab="popular" aria-pressed="false">人気</button>
+          <!--
+            YouTube Music, as far as the API reaches it. Its songs are ordinary videos filed
+            under the music category, so the players play them like any other video; this is
+            the same chart as 人気, narrowed to that category.
+          -->
+          <button type="button" data-tab="music" aria-pressed="false">♪ 人気の曲</button>
         </div>
         <div class="library-search" id="librarySearchRow" hidden>
           <input type="search" id="librarySearchInput" placeholder="曲名や人の名前で探す" />
+          <button
+            type="button"
+            id="librarySearchMusic"
+            aria-pressed="false"
+            title="曲だけ探す (YouTube Music)"
+          >
+            ♪ 曲だけ
+          </button>
           <button type="button" id="librarySearchGo">探す</button>
         </div>
         <p class="library-note" id="libraryNote"></p>
@@ -156,7 +179,7 @@
                   <dt>2 回叩く</dt><dd>右で 10 秒進む・左で 10 秒戻る</dd>
                   <dt>3 回・4 回</dt><dd>20 秒・30 秒</dd>
                   <dt>横になぞる</dt><dd>速さ</dd>
-                  <dt>縦になぞる</dt><dd>音量</dd>
+                  <dt>縦になぞる</dt><dd>音量（2 枠なら左半分＝動画・右半分＝音楽）</dd>
                   <dt>2 本指で広げる</dt><dd>画面いっぱいに映す</dd>
                   <dt>2 本指でつまむ</dt><dd>全体を映す</dd>
                   <dt>2 本指で叩く</dt><dd>音量の引き出し</dd>
@@ -244,6 +267,14 @@
             >
               🔗
             </button>
+            <!--
+              Search for this slot alone (operator, 2026-09-24). The picker opens on search and
+              every result offers this slot and nothing else, so there is no "which slot?" left
+              to answer after finding the video.
+            -->
+            <button type="button" class="icon" data-search title="この枠で検索" aria-label="この枠で検索">
+              🔍
+            </button>
             <select data-speed aria-label="再生の速さ">
               <option value="0.25">0.25倍</option>
               <option value="0.5">0.5倍</option>
@@ -297,6 +328,13 @@
       drawer is shared by every slot rather than living inside each one: it has to list the
       *other* slots, which no single slot knows about.
     -->
+    <!--
+      The way out of all-at-once full screen. It never fades: every touch on a picture goes to
+      YouTube, so nothing could bring a faded button back.
+    -->
+    <button type="button" class="all-full-close" id="allFullClose" hidden aria-label="全画面をやめる">
+      ✕
+    </button>
     <button type="button" class="mixer-open" id="mixerOpen" hidden aria-expanded="false">
       🔊 音量
     </button>
