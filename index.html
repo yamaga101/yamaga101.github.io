@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-D_WXZSFI.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Dv2sU1w9.css">
+    <script type="module" crossorigin src="/assets/index-Dh1iytgg.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BCBElzw3.css">
   </head>
   <body>
     <!--
@@ -34,24 +34,34 @@
         is why 全部 is written out and the broom is not.
       -->
       <section class="tools">
-        <button type="button" class="primary" id="playBoth">▶ 全部</button>
-        <button type="button" id="pauseBoth">⏸ 全部</button>
+        <button type="button" class="primary with-icon" id="playBoth" data-icon="play">全部</button>
+        <button type="button" class="with-icon" id="pauseBoth" data-icon="pause">全部</button>
         <!--
           Emptying every slot. It asks twice rather than opening a dialog: one stray tap must
           not throw away twenty videos, and a dialog is one more thing to read.
         -->
-        <button type="button" class="icon" id="resetAll" title="全枠リセット" aria-label="全枠リセット">
-          🧹
-        </button>
+        <button
+          type="button"
+          class="icon"
+          id="resetAll"
+          data-icon="trash"
+          title="全枠リセット"
+          aria-label="全枠リセット"
+        ></button>
 
         <!--
           Every slot at once, covering the screen (operator, 2026-09-24: 複数画面の全画面表示).
           The per-slot ⛶ shows one picture with the rest playing unseen; this shows all of
           them, the page's own bars and buttons put away.
         -->
-        <button type="button" class="icon" id="allFull" title="全部を全画面" aria-label="全部を全画面">
-          ⛶
-        </button>
+        <button
+          type="button"
+          class="icon"
+          id="allFull"
+          data-icon="grid"
+          title="全部を全画面"
+          aria-label="全部を全画面"
+        ></button>
 
         <span class="tools-sep" aria-hidden="true"></span>
 
@@ -59,7 +69,7 @@
           How many slots. The slider is for going a long way at once; the two buttons are for
           landing on the number you meant, which a thumb on a slider cannot reliably do.
         -->
-        <button type="button" class="icon" id="countDown" aria-label="枠を 1 つ減らす">−</button>
+        <button type="button" class="icon" id="countDown" data-icon="minus" aria-label="枠を 1 つ減らす"></button>
         <input
           type="range"
           id="countRange"
@@ -69,7 +79,7 @@
           value="2"
           aria-label="枠の数"
         />
-        <button type="button" class="icon" id="countUp" aria-label="枠を 1 つ増やす">＋</button>
+        <button type="button" class="icon" id="countUp" data-icon="plus" aria-label="枠を 1 つ増やす"></button>
         <output id="countValue" for="countRange">2</output>
         <span class="count-unit">枠</span>
 
@@ -91,9 +101,14 @@
           build was to kill the app from the task switcher (operator, 2026-09-23: 毎回タスク
           キルするのが嫌だ). It wears a dot when a background check has already found one.
         -->
-        <button type="button" class="icon" id="update" title="更新を確認" aria-label="更新を確認">
-          ↻
-        </button>
+        <button
+          type="button"
+          class="icon"
+          id="update"
+          data-icon="refresh"
+          title="更新を確認"
+          aria-label="更新を確認"
+        ></button>
 
         <!-- The operator's own YouTube, so a phone never has to type an id. -->
         <button type="button" id="signIn">ログイン</button>
@@ -164,9 +179,13 @@
             -->
             <button type="button" class="frame-start" data-start aria-label="再生"></button>
             <div class="gesture" data-gesture>
-              <button type="button" class="gesture-close" data-collapse aria-label="全画面をやめる">
-                ✕
-              </button>
+              <button
+                type="button"
+                class="gesture-close"
+                data-collapse
+                data-icon="close"
+                aria-label="全画面をやめる"
+              ></button>
               <!--
                 Nothing on screen says what the sheet does, so the first pause is where it
                 gets explained. It shows itself while this slot is full screen and paused —
@@ -175,17 +194,15 @@
               <div class="gesture-guide">
                 <p class="gesture-guide-title">指の操作</p>
                 <dl>
-                  <dt>1 回叩く</dt><dd>操作を出す／しまう</dd>
-                  <dt>2 回叩く</dt><dd>右で 10 秒進む・左で 10 秒戻る</dd>
-                  <dt>3 回・4 回</dt><dd>20 秒・30 秒</dd>
-                  <dt>横になぞる</dt><dd>速さ</dd>
-                  <dt>縦になぞる</dt><dd>音量（2 枠なら左半分＝動画・右半分＝音楽）</dd>
+                  <dt>1 回叩く</dt><dd>操作を出す（出ている時は再生／一時停止）</dd>
+                  <dt>2 回叩く</dt><dd>消音（左＝動画・右＝音楽・真ん中＝両方）</dd>
+                  <dt>上半分を横に</dt><dd>再生位置</dd>
+                  <dt>下半分を横に</dt><dd>速さ</dd>
+                  <dt>縦になぞる</dt><dd>音量（左＝動画・右＝音楽・真ん中＝両方）</dd>
                   <dt>2 本指で広げる</dt><dd>画面いっぱいに映す</dd>
                   <dt>2 本指でつまむ</dt><dd>全体を映す</dd>
-                  <dt>2 本指で叩く</dt><dd>音量の引き出し</dd>
+                  <dt>2 本指で横へ</dt><dd>隣の枠へ</dd>
                   <dt>2 本指で下へ</dt><dd>全画面をやめる</dd>
-                  <dt>3 本指で叩く</dt><dd>消音</dd>
-                  <dt>3 本指で横へ</dt><dd>隣の枠へ</dd>
                 </dl>
               </div>
               <p class="gesture-hint" data-hint aria-live="polite"></p>
@@ -196,8 +213,44 @@
                 (operator, 2026-09-23). It fades with the other controls and comes back on a
                 single tap.
               -->
+              <!--
+                Settings for the picture on screen, opened from ⚙ on the bar (operator,
+                2026-09-24: 再生中タップした時にいろんな設定できるようにして). Every choice is
+                a row of buttons rather than a menu: a menu opens the system picker, which
+                covers the picture and needs a second tap to close.
+              -->
+              <div class="gesture-settings" data-settings hidden>
+                <div class="gesture-settings-row">
+                  <span>速さ</span>
+                  <div class="chips" data-speed-chips></div>
+                </div>
+                <div class="gesture-settings-row">
+                  <span>字幕</span>
+                  <div class="chips">
+                    <button type="button" data-set-captions aria-pressed="false">字幕</button>
+                  </div>
+                </div>
+                <div class="gesture-settings-row">
+                  <span>繰り返し</span>
+                  <div class="chips">
+                    <button type="button" data-set-loop aria-pressed="true">繰り返す</button>
+                  </div>
+                </div>
+                <div class="gesture-settings-row">
+                  <span>映し方</span>
+                  <div class="chips">
+                    <button type="button" data-set-fit="fit" aria-pressed="true">全体</button>
+                    <button type="button" data-set-fit="fill" aria-pressed="false">画面いっぱい</button>
+                  </div>
+                </div>
+              </div>
               <div class="gesture-bar" data-bar>
-                <button type="button" data-bar-play aria-label="再生／一時停止">▶</button>
+                <button
+                  type="button"
+                  data-bar-play
+                  data-icon="play"
+                  aria-label="再生／一時停止"
+                ></button>
                 <span class="gesture-time" data-elapsed>0:00</span>
                 <input
                   type="range"
@@ -210,6 +263,20 @@
                   aria-label="再生位置"
                 />
                 <span class="gesture-time" data-total>0:00</span>
+                <button
+                  type="button"
+                  data-bar-captions
+                  data-icon="captions"
+                  aria-pressed="false"
+                  aria-label="字幕"
+                ></button>
+                <button
+                  type="button"
+                  data-bar-settings
+                  data-icon="settings"
+                  aria-expanded="false"
+                  aria-label="設定"
+                ></button>
               </div>
             </div>
           </div>
@@ -221,9 +288,14 @@
           -->
           <div class="row paste">
             <input type="text" data-input placeholder="YouTube のアドレスか ID を貼る" />
-            <button type="button" class="icon" data-load title="読み込む" aria-label="読み込む">
-              ↵
-            </button>
+            <button
+              type="button"
+              class="icon"
+              data-load
+              data-icon="enter"
+              title="読み込む"
+              aria-label="読み込む"
+            ></button>
           </div>
           <!--
             One row for everything this slot does. It was three — play and pause, the
@@ -233,48 +305,72 @@
             or it is not, so two buttons meant one of them was always dead.
           -->
           <div class="row controls">
-            <button type="button" class="icon" data-toggle title="再生" aria-label="再生">▶</button>
+            <button
+              type="button"
+              class="icon"
+              data-toggle
+              data-icon="play"
+              title="再生"
+              aria-label="再生"
+            ></button>
             <button
               type="button"
               class="icon"
               data-mute
+              data-icon="muted"
               aria-pressed="false"
               title="消音"
               aria-label="消音"
-            >
-              🔇
-            </button>
+            ></button>
             <button
               type="button"
               class="icon"
               data-loop
+              data-icon="loop"
               aria-pressed="true"
               title="繰り返し"
               aria-label="繰り返し"
-            >
-              🔁
-            </button>
-            <button type="button" class="icon" data-expand title="全画面" aria-label="全画面">
-              ⛶
-            </button>
+            ></button>
+            <!-- Captions on and off, for whatever this slot is playing (operator, 2026-09-24). -->
+            <button
+              type="button"
+              class="icon"
+              data-captions
+              data-icon="captions"
+              aria-pressed="false"
+              title="字幕"
+              aria-label="字幕"
+            ></button>
+            <button
+              type="button"
+              class="icon"
+              data-expand
+              data-icon="expand"
+              title="全画面"
+              aria-label="全画面"
+            ></button>
             <button
               type="button"
               class="icon"
               data-paste-toggle
+              data-icon="link"
               aria-pressed="false"
               title="アドレスを貼る"
               aria-label="アドレスを貼る"
-            >
-              🔗
-            </button>
+            ></button>
             <!--
               Search for this slot alone (operator, 2026-09-24). The picker opens on search and
               every result offers this slot and nothing else, so there is no "which slot?" left
               to answer after finding the video.
             -->
-            <button type="button" class="icon" data-search title="この枠で検索" aria-label="この枠で検索">
-              🔍
-            </button>
+            <button
+              type="button"
+              class="icon"
+              data-search
+              data-icon="search"
+              title="この枠で検索"
+              aria-label="この枠で検索"
+            ></button>
             <select data-speed aria-label="再生の速さ">
               <option value="0.25">0.25倍</option>
               <option value="0.5">0.5倍</option>
@@ -321,30 +417,17 @@
     </main>
 
     <!--
-      The other slots' volumes, reachable while one slot is covering the screen.
-
-      Full screen is for watching one picture while the rest keep playing, so the rest are
-      exactly what cannot be reached — their own controls are off screen with them. This
-      drawer is shared by every slot rather than living inside each one: it has to list the
-      *other* slots, which no single slot knows about.
-    -->
-    <!--
       The way out of all-at-once full screen. It never fades: every touch on a picture goes to
       YouTube, so nothing could bring a faded button back.
     -->
-    <button type="button" class="all-full-close" id="allFullClose" hidden aria-label="全画面をやめる">
-      ✕
-    </button>
-    <button type="button" class="mixer-open" id="mixerOpen" hidden aria-expanded="false">
-      🔊 音量
-    </button>
-    <aside class="mixer" id="mixer" hidden aria-label="他の枠の音量">
-      <div class="mixer-head">
-        <span>他の枠の音量</span>
-        <button type="button" id="mixerClose" aria-label="閉じる">✕</button>
-      </div>
-      <div class="mixer-list" id="mixerList"></div>
-    </aside>
+    <button
+      type="button"
+      class="all-full-close"
+      id="allFullClose"
+      data-icon="close"
+      hidden
+      aria-label="全画面をやめる"
+    ></button>
 
   </body>
 </html>
