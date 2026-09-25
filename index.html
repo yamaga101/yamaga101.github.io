@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-DPgeKUT1.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C75S0Gr3.css">
+    <script type="module" crossorigin src="/assets/index-DM9OHOkx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-B_t6LDoS.css">
   </head>
   <body>
     <!--
@@ -116,9 +116,9 @@
 
       <section class="library" id="library" hidden>
         <div class="library-bar">
-          <button type="button" id="libraryBack" hidden>← 戻る</button>
+          <button type="button" class="icon" id="libraryBack" data-icon="enter" aria-label="戻る" title="戻る" hidden></button>
           <strong id="libraryTitle"></strong>
-          <button type="button" id="libraryClose">閉じる</button>
+          <button type="button" class="icon" id="libraryClose" data-icon="close" aria-label="閉じる" title="閉じる"></button>
         </div>
         <div class="library-tabs">
           <button type="button" data-tab="search" aria-pressed="false">検索</button>
@@ -144,12 +144,13 @@
           <button
             type="button"
             id="librarySearchMusic"
+            class="icon"
+            data-icon="music"
             aria-pressed="false"
+            aria-label="曲だけ探す"
             title="曲だけ探す (YouTube Music)"
-          >
-            ♪ 曲だけ
-          </button>
-          <button type="button" id="librarySearchGo">探す</button>
+          ></button>
+          <button type="button" class="icon" id="librarySearchGo" data-icon="search" aria-label="探す" title="探す"></button>
         </div>
         <p class="library-note" id="libraryNote"></p>
         <ul class="library-list" id="libraryList"></ul>
