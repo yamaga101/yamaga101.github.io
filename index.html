@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-CBcIQbLS.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-B0SDp5NU.css">
+    <script type="module" crossorigin src="/assets/index-BvUO2Mzl.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-no9tRqqI.css">
   </head>
   <body>
     <!--
@@ -417,9 +417,12 @@
       <p class="note" id="note"></p>
     </main>
 
+    <!-- One transparent surface for a two-finger downward exit across any pair of cells. -->
+    <div class="all-full-gesture" id="allFullGesture" hidden aria-hidden="true"></div>
+
     <!--
-      The way out of all-at-once full screen. It never fades: every touch on a picture goes to
-      YouTube, so nothing could bring a faded button back.
+      The visible way out of all-at-once full screen. It never fades, and a two-finger downward
+      swipe on the transparent sheet is another way out.
     -->
     <button
       type="button"
