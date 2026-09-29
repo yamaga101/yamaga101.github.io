@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-BvUO2Mzl.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-no9tRqqI.css">
+    <script type="module" crossorigin src="/assets/index-CDjmaEqg.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D4A8AUPj.css">
   </head>
   <body>
     <!--
@@ -66,27 +66,25 @@
         <span class="tools-sep" aria-hidden="true"></span>
 
         <!--
-          How many slots. The slider is for going a long way at once; the two buttons are for
-          landing on the number you meant, which a thumb on a slider cannot reliably do.
+          How many slots, from a fixed list (operator, 2026-09-30: 1、2、4、9、16、25、36 の
+          いづれかから選ぶ). Past the pair every choice is a whole square, so the grid never
+          ends in a ragged row. A menu rather than the old slider and ± buttons: seven
+          choices are a list to pick from, not a range to slide along.
         -->
-        <button type="button" class="icon" id="countDown" data-icon="minus" aria-label="枠を 1 つ減らす"></button>
-        <input
-          type="range"
-          id="countRange"
-          min="1"
-          max="20"
-          step="1"
-          value="2"
-          aria-label="枠の数"
-        />
-        <button type="button" class="icon" id="countUp" data-icon="plus" aria-label="枠を 1 つ増やす"></button>
-        <output id="countValue" for="countRange">2</output>
-        <span class="count-unit">枠</span>
+        <select id="countSelect" aria-label="枠の数">
+          <option value="1">1 枠</option>
+          <option value="2">2 枠</option>
+          <option value="4">4 枠</option>
+          <option value="9">9 枠</option>
+          <option value="16">16 枠</option>
+          <option value="25">25 枠</option>
+          <option value="36">36 枠</option>
+        </select>
 
         <!--
           Left alone the grid works itself out from the count (9 becomes 3 by 3). This is for
           when the operator wants a shape the count would not have picked. A menu rather than
-          five buttons: it is set once and then never looked at, and five buttons took a row.
+          a row of buttons: it is set once and then never looked at, and the buttons took a row.
         -->
         <select id="columnsSelect" aria-label="並びの列数" hidden>
           <option value="auto">並び 自動</option>
@@ -94,6 +92,7 @@
           <option value="3">3 列</option>
           <option value="4">4 列</option>
           <option value="5">5 列</option>
+          <option value="6">6 列</option>
         </select>
 
         <!--
@@ -190,7 +189,8 @@
               <!--
                 Nothing on screen says what the sheet does, so the first pause is where it
                 gets explained. It shows itself while this slot is full screen and paused —
-                the one moment nobody is watching the picture — and is gone on play.
+                the one moment nobody is watching the picture — and fades after three
+                seconds, or is gone on play (operator, 2026-09-30: 3 秒で消える).
               -->
               <div class="gesture-guide">
                 <p class="gesture-guide-title">指の操作</p>
@@ -199,11 +199,11 @@
                   <dt>2 回叩く</dt><dd>消音（左＝動画・右＝音楽・真ん中＝両方）</dd>
                   <dt>上半分を横に</dt><dd>再生位置</dd>
                   <dt>下半分を横に</dt><dd>速さ</dd>
-                  <dt>縦になぞる</dt><dd>音量（左＝動画・右＝音楽・真ん中＝両方）</dd>
+                  <dt>左右を縦に</dt><dd>音量（2 枠の時は左＝動画・右＝音楽）</dd>
+                  <dt>真ん中を縦に</dt><dd>全画面をやめる</dd>
                   <dt>2 本指で広げる</dt><dd>画面いっぱいに映す</dd>
                   <dt>2 本指でつまむ</dt><dd>全体を映す</dd>
                   <dt>2 本指で横へ</dt><dd>隣の枠へ</dd>
-                  <dt>2 本指で下へ</dt><dd>全画面をやめる</dd>
                 </dl>
               </div>
               <p class="gesture-hint" data-hint aria-live="polite"></p>
