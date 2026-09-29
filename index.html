@@ -9,8 +9,8 @@
     <link rel="icon" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>yt-dual — 2 つ同時に再生</title>
-    <script type="module" crossorigin src="/assets/index-CDjmaEqg.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D4A8AUPj.css">
+    <script type="module" crossorigin src="/assets/index-gOgxGALn.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-cjE0FKLD.css">
   </head>
   <body>
     <!--
@@ -178,6 +178,15 @@
               (operator, 2026-09-23). This covers the picture only until playing begins.
             -->
             <button type="button" class="frame-start" data-start aria-label="再生"></button>
+            <!--
+              A silent slot's picture, tapped: which of the two heard slots to trade places
+              with (operator, 2026-09-30: 他の枠はタップで動画、音楽のいずれかと入れ替える).
+              The two videos swap, positions and all, so nothing is lost by choosing wrong.
+            -->
+            <div class="swap" data-swap hidden>
+              <button type="button" data-swap-to="0">動画へ</button>
+              <button type="button" data-swap-to="1">音楽へ</button>
+            </div>
             <div class="gesture" data-gesture>
               <button
                 type="button"
@@ -199,7 +208,7 @@
                   <dt>2 回叩く</dt><dd>消音（左＝動画・右＝音楽・真ん中＝両方）</dd>
                   <dt>上半分を横に</dt><dd>再生位置</dd>
                   <dt>下半分を横に</dt><dd>速さ</dd>
-                  <dt>左右を縦に</dt><dd>音量（2 枠の時は左＝動画・右＝音楽）</dd>
+                  <dt>左右を縦に</dt><dd>音量（左＝動画・右＝音楽）</dd>
                   <dt>真ん中を縦に</dt><dd>全画面をやめる</dd>
                   <dt>2 本指で広げる</dt><dd>画面いっぱいに映す</dd>
                   <dt>2 本指でつまむ</dt><dd>全体を映す</dd>
